@@ -33,13 +33,11 @@ Route::get('say-hello/{name}/{age}', function($name, $age){
 	return "Hello $name! i hear you are $age years old";
 });
 
-Route::get('resume', function(){
-	return "This is my resume";
-});
+Route::get('resume', 'HomeController@resume');
 
-Route::get('portfolio', function(){
-	return "This is my portfolio";
-});
+Route::get('game', 'HomeController@playGame');
+
+Route::get('portfolio', 'HomeController@portfolio');
 
 Route::get('roledice/{guess}', function($name){
 
@@ -50,7 +48,8 @@ Route::get('roledice/{guess}', function($name){
 	];
 
 
-	return View::Make('role-dice', $data);
+	return View::make('role-dice', $data);
 });
 
+Route::resource('posts', 'PostsController');
 
