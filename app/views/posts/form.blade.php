@@ -8,3 +8,4 @@
 	{{ Form::textarea('body', Input::old('body'), array('class' => 'form-control', 'placeholder' => 'Post Body', 'rows' => '4')) }}
 	{{ $errors->first('body', '<span class="help-block">:message</span>') }}
 </p>
+

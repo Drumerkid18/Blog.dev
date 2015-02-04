@@ -53,6 +53,27 @@ App::error(function(Exception $exception, $code)
 
 /*
 |--------------------------------------------------------------------------
+| Custom 404 Error Handler
+|--------------------------------------------------------------------------
+|
+| This gives us a custom error when it is a bad path.
+|
+*/
+
+App::error(function(Illuminate\Database\Eloquent\ModelNotFoundException $e)
+{
+	return Response::view('errors.missing', array(), 404);
+});
+
+
+
+App::missing(function($exception)
+{
+	return Response::view('errors.missing', array(), 404);
+});
+
+/*
+|--------------------------------------------------------------------------
 | Maintenance Mode Handler
 |--------------------------------------------------------------------------
 |

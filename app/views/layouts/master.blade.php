@@ -10,6 +10,7 @@
     <title>Laravel Blog</title>
 </head>
 <body>
+	@include('posts.nav')
 	<div class="container">
 		@if(Session::has('errorMessage'))
 		<div class="alert alert-danger"> {{{ Session::get('errorMessage') }}} </div>
@@ -22,4 +23,6 @@
 	    @yield('data')
 	</div>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="/js/script.js"></script>
 </html>

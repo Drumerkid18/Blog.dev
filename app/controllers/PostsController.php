@@ -1,6 +1,13 @@
 <?php
 
-class PostsController extends BaseController {
+class PostsController extends BaseController 
+{
+	public function __construct()
+	{
+		parent::__construct();
+
+		$this->beforeFilter('auth', array('except' => array('index', 'show')));
+	}
 
 	/**
 	 * Display a listing of the resource.
@@ -9,7 +16,7 @@ class PostsController extends BaseController {
 	 */
 	public function index()
 	{
-		$posts = Post::paginate(4);
+		$posts = Post::with('user')->paginate(4);
 
 		return View::make('posts.index')->with('posts', $posts);	
 	}
@@ -34,6 +41,8 @@ class PostsController extends BaseController {
 	public function store()
 	{
 		$post = new Post();
+		$post->user_id = Auth::id();
+
 		return $this->savePost($post);
 
 	}
@@ -47,8 +56,8 @@ class PostsController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$post = Post::findorfail($id);
 
+		$post = Post::findorfail($id);
 		return View::make('posts.show')->with('post', $post);
 	}
 
@@ -62,6 +71,7 @@ class PostsController extends BaseController {
 	public function edit($id)
 	{
 		$post = Post::findorfail($id);
+
 		return View::make('posts.edit')->with('post', $post);
 	}
 
@@ -74,7 +84,8 @@ class PostsController extends BaseController {
 	 */
 	public function update($id)
 	{
-		$post = Post::findorFail($id);
+		$post = Post::findorfail($id);
+
 		return $this->savePost($post);
 	}
 
@@ -89,6 +100,8 @@ class PostsController extends BaseController {
 	{
 		$post = Post::find($id);
 		$post->delete();
+
+		Session::flash('successMessage', 'Post Deleted!');
 		return Redirect::action('PostsController@index');
 	}
 
@@ -99,6 +112,8 @@ class PostsController extends BaseController {
 
 	    // attempt validation
 	    if ($validator->fails()) {
+
+			Log::warning("User made a bad PostsController request", array('id' => $id));
 	    	Session::flash('errorMessage', 'Failed to save your post!');
 
 	    	return Redirect::back()->withInput()->withErrors($validator);
@@ -108,9 +123,9 @@ class PostsController extends BaseController {
 			$post->body  = Input::get('body');
 			$post->save();
 			Session::flash('sucessMessage', 'Sucessfully saved your post!');
+			return Redirect::action('PostsController@index');
 	    }		
 
-		return Redirect::action('PostsController@index');
 	}
 
 

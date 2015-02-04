@@ -7,7 +7,7 @@
 
 	@include('posts.form')
 	
-	{{ Form::submit('Submit Post', array('class' => 'btn btn-primary')) }}
+	{{ Form::submit('Submit Post', array('class' => 'btn btn-primary')) }}  <a class="btn btn-info" href="{{{ action('PostsController@index') }}}">Back</a>
 	{{ Form::close() }}
 	</div>
 @stop
