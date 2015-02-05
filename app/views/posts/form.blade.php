@@ -9,3 +9,9 @@
 	{{ $errors->first('body', '<span class="help-block">:message</span>') }}
 </p>
 
+<div>	
+	{{ Form::label('photo', 'Add Photo:')}}
+	{{ Form::file('photo', array('class' => 'form-control')) }}
+	{{ $errors->first('photo', '<span class="help-block">:message</span>') }}
+</div>
+

@@ -16,9 +16,22 @@ class PostsController extends BaseController
 	 */
 	public function index()
 	{
-		$posts = Post::with('user')->paginate(4);
+		$query = Post::with('user');
 
-		return View::make('posts.index')->with('posts', $posts);	
+
+		if(Input::has('search'))
+		{
+			$value = $_GET['search'];
+			$query->where('body', 'like', '%$value%');
+			$query->orwhere('title', 'like', '%$value%');
+			$query->wherehas('user', function($q)
+			{
+				$q->where('email', 'like', '%$value%');
+			});
+		}
+		$posts = $query->orderBy('created_at', 'desc')->paginate(4);
+
+		return View::make('posts.index')->with('posts', $posts);
 	}
 
 
@@ -122,6 +135,12 @@ class PostsController extends BaseController
 			$post->title = Input::get('title');
 			$post->body  = Input::get('body');
 			$post->save();
+
+			if (Input::hasFile('photo'))
+				{
+					$post->uploadFile(Input::file('photo'));	
+				}
+
 			Session::flash('sucessMessage', 'Sucessfully saved your post!');
 			return Redirect::action('PostsController@index');
 	    }		

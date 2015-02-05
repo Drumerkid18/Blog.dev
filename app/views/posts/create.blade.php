@@ -2,11 +2,11 @@
 
 @section ('content')
 	<div class="container">
-	{{ Form::open(array('action' => 'PostsController@store')) }}
+	{{ Form::open(array('action' => 'PostsController@store', 'files' => true)) }}
 	<h3>Enter Items</h3>
 
 	@include('posts.form')
-	
+
 	{{ Form::submit('Submit Post', array('class' => 'btn btn-primary')) }}  <a class="btn btn-info" href="{{{ action('PostsController@index') }}}">Back</a>
 	{{ Form::close() }}
 	</div>

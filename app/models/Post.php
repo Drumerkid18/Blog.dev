@@ -14,4 +14,15 @@ class Post extends BaseModel
     	return $this->belongsTo('User');
     }
 
+    public function uploadFile($file)
+    {
+    	$uploadPath = public_path() . '/uploads';
+		$fileName   = $this->id . '-' . $file->getClientOriginalName();
+
+		Input::file('photo')->move($uploadPath, $fileName);
+		$this->photo = '/uploads/' . $fileName;
+
+		$this->save();
+    }
+
 }

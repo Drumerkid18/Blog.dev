@@ -2,7 +2,7 @@
 
 @section ('content')
 	<div class="container">
-	{{ Form::model($post, array('action' => array('PostsController@update', $post->id), 'method' => 'put')) }}
+	{{ Form::model($post, array('action' => array('PostsController@update', $post->id), 'method' => 'put', 'files' => true)) }}
 	<h3>Enter Items</h3>
 
 	@include('posts.form')
